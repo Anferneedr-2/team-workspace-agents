@@ -1,0 +1,2 @@
+# Agents hired for a specific client/project (written by bin/hire_agent.py; read by Governor/build_governance.py).
+instances: []

@@ -1,0 +1,203 @@
+# Agent registry. Written by Agents/bin/create_agent.py and Agents/bin/registry.py.
+# Do not hand-edit agents[]. Readable copy: REGISTRY.md.
+# NOTE: this is a sanitized starter registry containing only the builder
+# (agent-creator, multi-agent-engineer) and the generic-helper templates
+# (team-lead, short-text-writer, reviewer, memory-manager, document-engineer).
+# No client entries, no client-specific agents, no test/history data from the
+# source device.
+version: 1
+clients: {}
+agents:
+- name: agent-creator
+  role: agent-creator
+  placement: team
+  home: Agents
+  folder: /Users/robi/Team-Workspace/Agents
+  purpose: Take every new helper from the first question to a working, connected, tested, documented and reviewed helper,
+    built on purpose and organized the same way every time.
+  owner: Robi
+  model: claude-sonnet-5-5
+  skills:
+  - socratic-discovery
+  - workflow-and-journey-mapping
+  - agent-requirements
+  - agent-lifecycle
+  - hermes-reference
+  skills_mode: standard
+  toolsets_off:
+  - browser
+  - image_gen
+  - tts
+  - cronjob
+  - computer_use
+  - code_execution
+  memory: builtin
+  connections: []
+  reach:
+  - app
+  - telegram
+  brief: /Users/robi/Team-Workspace/Agents/briefs/agent-creator.md
+  status: testing
+- name: multi-agent-engineer
+  role: multi-agent-engineer
+  placement: team
+  home: Multi-Agent-Engineer
+  folder: /Users/robi/Team-Workspace/Multi-Agent-Engineer
+  purpose: Give each client project a well-built team of helpers, set up the same safe way every time, each member with one
+    job, its own memory and the project's own data.
+  owner: Robi
+  model: claude-sonnet-5-5
+  skills: []
+  skills_mode: lean
+  toolsets_off:
+  - web
+  - browser
+  - image_gen
+  - tts
+  - code_execution
+  - cronjob
+  - delegation
+  - computer_use
+  - connections
+  memory: builtin
+  connections: []
+  reach:
+  - app
+  brief: /Users/robi/Team-Workspace/Agents/briefs/multi-agent-engineer.md
+  status: testing
+- name: team-lead
+  role: team-lead
+  placement: team
+  home: Practice-Team
+  folder: /Users/robi/Team-Workspace/Practice-Team
+  purpose: 'Keep a team''s work organised: clear tasks, one owner per deliverable, a trail of every hand-over and honest reports
+    to Robi, with the lead kept separate from the writer and the reviewer.'
+  owner: Robi
+  model: claude-sonnet-5-5
+  skills: []
+  skills_mode: lean
+  toolsets_off:
+  - web
+  - browser
+  - terminal
+  - image_gen
+  - tts
+  - code_execution
+  - cronjob
+  - delegation
+  - computer_use
+  - connections
+  memory: builtin
+  connections: []
+  reach:
+  - app
+  brief: briefs/team-lead.md
+  status: testing
+- name: short-text-writer
+  role: short-text-writer
+  placement: team
+  home: Practice-Team
+  folder: /Users/robi/Team-Workspace/Practice-Team
+  purpose: Give the team clear, short first drafts that follow the task exactly, with every gap asked about instead of guessed.
+  owner: Robi
+  model: claude-sonnet-5-5
+  skills: []
+  skills_mode: lean
+  toolsets_off:
+  - web
+  - browser
+  - terminal
+  - image_gen
+  - tts
+  - code_execution
+  - cronjob
+  - delegation
+  - computer_use
+  - connections
+  memory: builtin
+  connections: []
+  reach:
+  - app
+  brief: briefs/short-text-writer.md
+  status: testing
+- name: reviewer
+  role: reviewer
+  placement: team
+  home: Practice-Team
+  folder: /Users/robi/Team-Workspace/Practice-Team
+  purpose: Give the team an independent, honest check so that only drafts that meet the task go forward.
+  owner: Robi
+  model: claude-sonnet-5-5
+  skills: []
+  skills_mode: lean
+  toolsets_off:
+  - web
+  - browser
+  - terminal
+  - image_gen
+  - tts
+  - code_execution
+  - cronjob
+  - delegation
+  - computer_use
+  - connections
+  memory: builtin
+  connections: []
+  reach:
+  - app
+  brief: briefs/reviewer.md
+  status: testing
+- name: document-engineer
+  role: document-engineer
+  placement: team
+  home: Generic-Helpers
+  folder: /Users/robi/Team-Workspace/Generic-Helpers
+  purpose: Keep every project's documents current and honest, so anyone can see what changed and which files are final.
+  owner: Robi
+  model: claude-sonnet-5-5
+  skills: []
+  skills_mode: lean
+  toolsets_off:
+  - web
+  - browser
+  - terminal
+  - image_gen
+  - tts
+  - code_execution
+  - cronjob
+  - delegation
+  - computer_use
+  - connections
+  memory: builtin
+  connections: []
+  reach:
+  - app
+  brief: briefs/document-engineer.md
+  status: testing
+- name: memory-manager
+  role: memory-manager
+  placement: team
+  home: Generic-Helpers
+  folder: /Users/robi/Team-Workspace/Generic-Helpers
+  purpose: Give a project one trustworthy source of what is known, so helpers answer from notes and never from guesses.
+  owner: Robi
+  model: claude-sonnet-5-5
+  skills: []
+  skills_mode: lean
+  toolsets_off:
+  - web
+  - browser
+  - terminal
+  - image_gen
+  - tts
+  - code_execution
+  - cronjob
+  - delegation
+  - computer_use
+  - connections
+  memory: builtin
+  connections: []
+  reach:
+  - app
+  brief: briefs/memory-manager.md
+  status: testing

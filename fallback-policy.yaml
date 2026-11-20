@@ -1,0 +1,29 @@
+# Agents/fallback-policy.yaml -- centralized fallback-provider policy for the Agent Factory.
+#
+# create_agent.py reads this file through load_fallback_policy()/resolve_fallback_chain();
+# no provider or model name is hard-coded in that script. A brief's build-spec refers to a
+# chain here by NAME via a scalar `fallback_providers:` key:
+#   (key omitted)                -> the "default" chain below, applied automatically to
+#                                    every NEW agent build (Decision 1, Default ON)
+#   fallback_providers: none     -> explicit opt-out, no fallback_providers written
+#   fallback_providers: <name>   -> any other named chain below, a per-agent override
+#
+# --update NEVER silently changes an existing agent's fallback chain -- it is only ever
+# touched when the approved brief explicitly names a chain or "none" for that update
+# (Decision 2); the dry-run plan always shows the exact before/after when that happens.
+#
+# Order within a chain matters (tried top to bottom) and is preserved exactly as written
+# here. Every entry needs both provider and model -- validated structurally, never against
+# a hard-coded list of "known" providers (so a new provider never needs a script change).
+version: 1
+chains:
+  default:
+    - provider: nous
+      model: deepseek/deepseek-v4-pro
+    - provider: openai-api
+      model: gpt-4.1
+  qwen-nous:
+    - provider: nous
+      model: qwen/qwen3.8-flash
+    - provider: openai-api
+      model: gpt-4.1
