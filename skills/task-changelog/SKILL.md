@@ -33,7 +33,7 @@ Check before replying: did this turn write files, change facts, or alter structu
 
 | Changed… | Entry goes in |
 |---|---|
-| Workspace root, hub README, Obsidian entry, profiles, Bundy, conventions | `/Users/robi/Team-Workspace/CHANGELOG.md` |
+| Workspace root, hub README, Obsidian entry, profiles, Bundy, conventions | `./CHANGELOG.md` |
 | Inside one project directory (README, Jira/, AGENTS.md, project bots) | `<Project>/CHANGELOG.md` |
 | Both | one entry in each file |
 
@@ -43,10 +43,10 @@ Owners (hub README §6): top-level `document-engineer` owns the workspace file, 
 
 1. Determine scope from the table; read the target file so you append under its `## Entries` heading (append-only, newest at the bottom).
 2. Append exactly ONE line: `- [YYYY-MM-DD] [actor] what changed — detail`
-   - `actor` = your profile slug (e.g. `document-engineer`, `clinicconnects-jira-admin`) or `default`
+   - `actor` = your profile slug (e.g. `document-engineer`, `example-client-jira-admin`) or `default`
    - `detail` = version bump if any + key file paths; facts, not narration
-3. If structure, roster, conventions, or status changed → follow `pinned-living-docs`: bump README `Status` + `Last updated`, apply the delta, mirror the changed sections to the Obsidian entry (`Agentic Team Alpha.md`), bump its frontmatter `version:`.
-4. Retain memory in the same turn: `hindsight_retain(content="Changelog [YYYY-MM-DD] [scope]: <what changed> → <files>", tags=["changelog", "agentic-team-alpha"])`
+3. If structure, roster, conventions, or status changed → follow `pinned-living-docs`: bump README `Status` + `Last updated`, apply the delta, mirror the changed sections to the Obsidian entry (`agent workspace.md`), bump its frontmatter `version:`.
+4. Retain memory in the same turn: `hindsight_retain(content="Changelog [YYYY-MM-DD] [scope]: <what changed> → <files>", tags=["changelog", "company-workspace"])`
 5. Verify both indexes, then report the file path:
    - `search_files(target="content", pattern="^- \\[20", file_glob="CHANGELOG.md")` finds your line
    - living doc / Obsidian bumped only if step 3 applied
@@ -54,10 +54,9 @@ Owners (hub README §6): top-level `document-engineer` owns the workspace file, 
 ## Entry format (the index contract)
 
 ```
-- [2026-11-04] [document-engineer] v1.2 — created CHANGELOG.md files, wired DE ownership → CHANGELOG.md, README §6
 ```
 
-- Fixed prefix `- [YYYY-MM-DD] ` — one pattern finds every entry across every changelog: `search_files(target="content", pattern="^- \\[20", file_glob="CHANGELOG.md", path="/Users/robi/Team-Workspace")`
+- Fixed prefix `- [YYYY-MM-DD] ` — one pattern finds every entry across every changelog: `search_files(target="content", pattern="^- \\[20", file_glob="CHANGELOG.md", path=".")`
 - Project files are scoped by their location; workspace entries name the scope in the summary when relevant
 - Memory side: the `changelog` tag makes `hindsight_recall("changelog entries")` return the run history
 - Cross-links keep it one graph: project changelogs link `../CHANGELOG.md`; the Obsidian entry's `## Related` points at the workspace file; README §7 is a pointer, never a duplicate
@@ -75,6 +74,6 @@ Owners (hub README §6): top-level `document-engineer` owns the workspace file, 
 
 ## Verification
 
-- `search_files(target="files", pattern="CHANGELOG.md", path="/Users/robi/Team-Workspace")` returns 3 files (root, CliniConnects, Guardare)
+- `search_files(target="files", pattern="CHANGELOG.md", path=".")` returns 3 files (root, example-client, example-client)
 - Content search for `^- \[20` returns every entry ever written
 - `hindsight_recall("changelog entries")` returns recent retains tagged `changelog`

@@ -12,7 +12,7 @@ Three different maps. Keep them separate, and confirm each one with the person b
 |---|---|---|
 | **Workflow** | How does the work get done today, step by step? | the team doing the work |
 | **User journey** | How will a person ask the helper for things and use the answers? | the person who talks to the helper (the user) |
-| **Customer journey** | What does the end person go through with the business, and where could the helper help or must stay out? | the client's customer, or Robi's own client |
+| **Customer journey** | What does the end person go through with the business, and where could the helper help or must stay out? | the client's customer, or the employee's own client |
 
 The **user** talks to the helper. The **customer** is served by the business. They are often different people. Ask which is which.
 

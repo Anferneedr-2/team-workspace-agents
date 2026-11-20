@@ -65,7 +65,7 @@ kanban_db_dispatch.py, kanban_workflow.py, tools/kanban_tools.py/schemas.py):
     is requeued to 'ready' on the next reconcile tick
     (reconcile_orphaned_running) -- never silently duplicated beside a still-
     alive worker. A 'blocked' task is untouched by ANY automatic
-    reconciliation path at all (confirmed empirically: Robi's manual block of
+    reconciliation path at all (confirmed empirically: the employee's manual block of
     t_3525d5b6 survived a pause/resume/multi-session gap with zero native
     interference).
 
@@ -244,8 +244,8 @@ def _hash_tree(project_dir: Path) -> dict:
 def verify_file_contains(project_dir: Path, path: str, pattern, forbid_other_changes: bool = False,
                           baseline_hashes: Optional[dict] = None) -> VerifyResult:
     """`pattern` is a single regex, or a list of explicitly PERMITTED alternative
-    representations of the same real fact (e.g. "November 27, 2026" and
-    "2026-11-27" for the same date) -- ANY one matching is a pass. This is not
+    representations of the same real fact (e.g. "November 27" and
+    "YYYY-11-27" for the same date) -- ANY one matching is a pass. This is not
     a loosened/fuzzy match: every alternative must still be listed explicitly
     in the plan ahead of time, so a wrong date or a different fact still fails
     -- only an accepted, pre-approved spelling of the SAME correct fact passes."""

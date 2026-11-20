@@ -79,7 +79,7 @@ cd ~/.hermes/memory-layer && python3 test_layer.py --live
 
 ## Python version pitfall
 
-On macOS, `python3` may be 3.9 while Hermes runs 3.14. Importing Hermes modules under 3.9 can fail at import time on runtime `str | object` expressions:
+On the operating system, `python3` may be 3.9 while Hermes runs 3.14. Importing Hermes modules under 3.9 can fail at import time on runtime `str | object` expressions:
 
 ```text
 TypeError: unsupported operand type(s) for |: 'type' and 'type'

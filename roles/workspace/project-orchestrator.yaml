@@ -1,7 +1,7 @@
 slug: project-orchestrator
 scope: workspace
 cwd: '{{WS}}'
-description: 'Top-level Project Orchestrator for Agentic Team Alpha: cross-project planning, task breakdown, and routing;
+description: 'Top-level Project Orchestrator for agent workspace: cross-project planning, task breakdown, and routing;
   decides which project a task belongs to and receives escalations from project-scoped orchestrators.'
 skills:
 - task-changelog

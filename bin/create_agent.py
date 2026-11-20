@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
-"""Build, update or retire a Hermes agent from an approved Agent Brief, organized like the remote Mac Mini.
+"""Build, update or retire a Hermes agent from an approved Agent Brief, organized like the remote host.
 
   create_agent.py <brief.md> --dry-run                    check the brief, show exactly what would be created
-  create_agent.py <brief.md> --approved [--smoke]         build (brief must say "Status: APPROVED by Robi on <date>")
+  create_agent.py <brief.md> --approved [--smoke]         build (brief must say "Status: APPROVED by the designated approver on <date>")
   create_agent.py <brief.md> --update --approved          apply an approved brief to an existing helper (backs up first)
   create_agent.py --retire <slug> --approved              retire: delete the profile, keep the registry row and brief
 
@@ -138,11 +138,11 @@ def render_soul(s: dict) -> str:
     L = ['# Intent', str(s['intent']).strip(), '', '# Role', str(s['role']).strip(), '', '# Instructions']
     L += [f'- {i}' for i in s['instructions']]
     L += [f'- Never: {i}' for i in s['never']]
-    L += [f'- Ask Robi first before: {i}' for i in s['ask_first']]
+    L += [f'- Ask the employee first before: {i}' for i in s['ask_first']]
     L += [f'- Work only inside {s["folder"]}.',
-          '- Get explicit approval from Robi before sending anything to other people, publishing, spending money, deleting files or writing to a shared system.',
+          '- Get explicit approval from the employee before sending anything to other people, publishing, spending money, deleting files or writing to a shared system.',
           '- Never invent results. If work fails or something is missing, say so plainly and say what you need.',
-          '- Keep answers short and in plain language unless Robi asks for detail.', '', '# Context']
+          '- Keep answers short and in plain language unless the employee asks for detail.', '', '# Context']
     L += [f'- {i}' for i in s['context']] or ['- (none yet)']
     L += ['', '# Examples']
     L += [f'- {i}' for i in s['examples']] or ['- (none yet)']
@@ -152,7 +152,7 @@ def render_soul(s: dict) -> str:
 def memory_seed(s: dict, brief: Path) -> str:
     t = (f'I am {s["slug"]}. My job: {str(s["intent"]).strip()} I work only inside {s["folder"]}. '
          f'Never: {"; ".join(map(str, s["never"])) or "nothing extra listed"}. '
-         f'Ask Robi first before: {"; ".join(map(str, s["ask_first"])) or "sending, publishing, spending or deleting"}. Brief: {brief}')
+         f'Ask the employee first before: {"; ".join(map(str, s["ask_first"])) or "sending, publishing, spending or deleting"}. Brief: {brief}')
     if len(t) > 2000:
         fail(f'the memory note would be {len(t)} characters; Hermes keeps only 2,200. Shorten "intent", "never" or "ask_first".')
     return t + '\n'
@@ -211,7 +211,7 @@ def resolve_fallback_chain(name: str, policy: dict) -> list:
 def fallback_plan_line(fb_requested, is_update: bool, exists: bool, existing_cfg: dict) -> str:
     """One line for the --dry-run plan describing exactly what will happen to
     fallback_providers -- shown even when nothing changes, so a silent update is never
-    actually silent in the plan Robi reviews before approving (Decision 2)."""
+    actually silent in the plan the employee reviews before approving (Decision 2)."""
     old_chain = (existing_cfg or {}).get('fallback_providers') if exists else None
     if is_update and fb_requested is None:
         return f'fallback_providers: unchanged, preserved as-is ({old_chain or "none configured"})'
@@ -270,7 +270,7 @@ def home_skeleton(s: dict, brief: Path):
         if not (f / 'AGENTS.md').exists():
             (f / 'AGENTS.md').write_text(
                 f'# AGENTS.md — {s["home"]}\n\nTeam folder. Working directory for the agents listed in README.md.\n\n## Rules\n\n'
-                '1. Work only inside this folder. Never read another client\'s folder.\n2. Drafts go in `Work/`. Approved outputs only after Robi approves.\n'
+                '1. Work only inside this folder. Never read another client\'s folder.\n2. Drafts go in `Work/`. Approved outputs only after the employee approves.\n'
                 '3. Every finished task: one entry in `CHANGELOG.md`, format `- [YYYY-MM-DD] [actor] what changed — detail`.\n'
                 '4. Hand work to another agent with `hermes -p <slug> --in <folder> -z "<task>"` (`--in` is mandatory).\n5. Secrets never go in files.\n')
     if not (f / 'CHANGELOG.md').exists():
@@ -286,7 +286,7 @@ def log(s: dict, line: str):
 def registry_entry(s: dict, brief: Path, old=None) -> dict:
     today = date.today().isoformat()
     e = {'name': s['slug'], 'role': s['name'], 'placement': s['kind'], 'home': s['home'], 'folder': str(s['folder']),
-         'purpose': ' '.join(str(s['intent']).split()), 'owner': 'Robi', 'model': s['model'], 'skills': list(s['skills']),
+         'purpose': ' '.join(str(s['intent']).split()), 'owner': 'the employee', 'model': s['model'], 'skills': list(s['skills']),
          'skills_mode': s['skills_mode'], 'toolsets_off': list(s['toolsets_off']), 'memory': s['memory'],
          'connections': list(s['connections']), 'reach': list(s['reach']), 'brief': str(brief), 'status': (old or {}).get('status', 'testing'),
          'created': (old or {}).get('created', today), 'updated': today, 'last_review': (old or {}).get('last_review'),
@@ -344,7 +344,7 @@ def gateway_serves(slug: str) -> str:
 
 def do_retire(slug: str, approved: bool):
     if not approved:
-        fail('retiring deletes the helper. Get Robi\'s clear yes, then pass --approved')
+        fail('retiring deletes the helper. Get the employee\'s clear yes, then pass --approved')
     reg = R.load()
     e = R.find(reg, slug)
     if not e:
@@ -398,8 +398,8 @@ def main():
             fail(f'--update needs an existing helper, but "{slug}" does not exist')
         if old and (old.get('home') != s['home'] or old.get('placement') != s['kind']):
             fail('placement cannot change on update. Retire and rebuild if it must move')
-    if a.approved and not re.search(r'^Status:\s*APPROVED by Robi on \d{4}-\d{2}-\d{2}', brief.read_text(), re.M):
-        fail('the brief does not say "Status: APPROVED by Robi on <date>". Get his clear yes first.')
+    if a.approved and not re.search(r'^Status:\s*APPROVED by the designated approver on \d{4}-\d{2}-\d{2}', brief.read_text(), re.M):
+        fail('the brief does not say "Status: APPROVED by the designated approver on <date>". Get the approver’s clear yes first.')
     if shutil.which('hermes') is None:
         fail('the hermes command was not found')
     soul = render_soul(s)

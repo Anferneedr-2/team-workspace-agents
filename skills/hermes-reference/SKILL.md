@@ -1,12 +1,12 @@
 ---
 name: hermes-reference
-description: "Use when designing, connecting, checking or fixing a Hermes agent. Quick reference from the official Hermes docs, checked on this Mac: where things live, limits, tools, connections, security, messaging, verify commands, and fixes."
+description: "Use when designing, connecting, checking or fixing a Hermes agent. Quick reference from the official Hermes docs, checked on the local environment: where things live, limits, tools, connections, security, messaging, verify commands, and fixes."
 version: 1.0.0
 ---
 
 # Hermes reference (for building and checking agents)
 
-Official docs: https://hermes-agent.nousresearch.com/docs (Skills, Tools & Toolsets, Memory, Personality & SOUL.md, Context Files, MCP, Security, Configuration, Messaging, Tips, CLI Commands). Commands below were checked on this Mac's install. If something here disagrees with the live docs or with `hermes <command> --help`, trust those and tell Robi.
+Official docs: https://hermes-agent.nousresearch.com/docs (Skills, Tools & Toolsets, Memory, Personality & SOUL.md, Context Files, MCP, Security, Configuration, Messaging, Tips, CLI Commands). Commands below were checked on the local environment's install. If something here disagrees with the live docs or with `hermes <command> --help`, trust those and tell the employee.
 
 ## 1. An agent is a profile
 
@@ -60,13 +60,13 @@ A "Bot" in the Hermes app is a profile: `~/.hermes/profiles/<name>/` with its ow
 - Approvals (`approvals.mode`): `smart` (default), `manual`, `off`. Keep `smart` or `manual`. Never `off`, and avoid `--yolo`.
 - One-shot runs, cron jobs and API sessions cannot ask anyone, so risky commands are **denied** there by default. That is correct; do not loosen it without a reason.
 - `approvals.deny` takes patterns that are always blocked. Use it for "never" rules that map to commands.
-- File tools refuse protected paths (SSH keys, `.env`, OAuth files). But the terminal runs as the same Mac user, so on this Mac a folder rule is a **rule the agent follows, not a wall**. Say that plainly. A real wall needs a sandbox (Docker or similar), which is not installed here.
-- Secrets live in `.env` or the Keychain, never copied between agents.
+- File tools refuse protected paths (SSH keys, `.env`, OAuth files). But the terminal runs as the same local environment user, so on the local environment a folder rule is a **rule the agent follows, not a wall**. Say that plainly. A real wall needs a sandbox (Docker or similar), which is not installed here.
+- Secrets live in `.env` or the system credential store, never copied between agents.
 
 ## 8. Reaching the agent
 
 - **Hermes app:** it appears under Bots. **Terminal:** `hermes -p <name>`. **Another agent:** `hermes -p <name> --in <folder> -z "<task>"`.
-- **Telegram (one bot per agent).** A token can only be used by one agent, so every agent that should be on Telegram gets its **own** bot. Easiest: Hermes app, Messaging, Telegram, pick the agent, "Create with QR". It creates the bot, finds the numeric user ID, writes `TELEGRAM_BOT_TOKEN` and `TELEGRAM_ALLOWED_USERS` into that agent's `.env` and restarts the gateway. Manual: create the bot with @BotFather (`/newbot`), find the numeric ID with @userinfobot, then run `hermes -p <name> gateway setup` or put the two lines in that agent's `.env`. **Robi handles the token. You never see, type or store it.**
+- **Telegram (one bot per agent).** A token can only be used by one agent, so every agent that should be on Telegram gets its **own** bot. Easiest: Hermes app, Messaging, Telegram, pick the agent, "Create with QR". It creates the bot, finds the numeric user ID, writes `TELEGRAM_BOT_TOKEN` and `TELEGRAM_ALLOWED_USERS` into that agent's `.env` and restarts the gateway. Manual: create the bot with @BotFather (`/newbot`), find the numeric ID with @userinfobot, then run `hermes -p <name> gateway setup` or put the two lines in that agent's `.env`. **the employee handles the token. You never see, type or store it.**
 - **Access is locked by default.** Only numeric IDs in `TELEGRAM_ALLOWED_USERS` may talk to it (not usernames). Never allow everyone on an agent that has terminal access. `hermes pairing list|approve|revoke` also exists.
 - After any config change run `hermes gateway restart`, but first make sure nobody's task is running (`active_agents` is 0 in `~/.hermes/gateway_state.json`). `/sethome` in a chat sets where timer results go. In groups: turn off Group Privacy in BotFather and re-add the bot, or make it admin; `telegram.require_mention: true` limits replies.
 - **Check:** `hermes gateway status`, `~/.hermes/logs/gateway.log`, `/whoami` and `/platform list` inside the chat, and `~/.hermes/gateway_state.json` showing `<name>:telegram` as `connected`. Then send it a hello from the allowed account and see it answer.
@@ -76,11 +76,11 @@ A "Bot" in the Hermes app is a profile: `~/.hermes/profiles/<name>/` with its ow
 ### Voice notes (speech to text)
 
 - Hermes transcribes incoming voice notes automatically (`stt.enabled: true`). With no engine available the agent only gets an audio file; its own log (`~/.hermes/profiles/<name>/logs/gateway.log`) says "Voice transcription failed" and the agent should say so and ask for typing, never guess.
-- Engines (`stt.provider`): `local` (faster-whisper, no key, voice stays on the Mac), `groq` (`GROQ_API_KEY`), `openai` (`VOICE_TOOLS_OPENAI_KEY`). Auto order: local, groq, openai.
-- **Local setup on this Mac (done 2026-11-10):** install into the *active* Hermes runtime with Hermes's own uv: `~/.hermes/tools/uv-*/uv pip install --python <runtime venv>/bin/python faster-whisper "av==16.1.0"`. The runtime venv is the one `hermes doctor` calls "Runtime venv staged". **Pin `av`:** the newest `av` (19) breaks faster-whisper 1.2.1 with "open() got an unexpected keyword argument 'metadata_errors'"; 16.1.0 and 15.1.0 work. The runtime has no pip. The model downloads from Hugging Face on first use (`small` is about 460 MB in `~/.cache/huggingface`).
+- Engines (`stt.provider`): `local` (faster-whisper, no key, voice stays on the local environment), `groq` (`GROQ_API_KEY`), `openai` (`VOICE_TOOLS_OPENAI_KEY`). Auto order: local, groq, openai.
+- **Local setup in the current environment:** install into the *active* Hermes runtime with Hermes's own uv: `~/.hermes/tools/uv-*/uv pip install --python <runtime venv>/bin/python faster-whisper "av==16.1.0"`. The runtime venv is the one `hermes doctor` calls "Runtime venv staged". **Pin `av`:** the newest `av` (19) breaks faster-whisper 1.2.1 with "open() got an unexpected keyword argument 'metadata_errors'"; 16.1.0 and 15.1.0 work. The runtime has no pip. The model downloads from Hugging Face on first use (`small` is about 460 MB in `~/.cache/huggingface`).
 - Settings per agent: `hermes -p <name> config set stt.provider local`, `stt.local.model small`, `stt.language ""` (auto-detect; the default `en` forces English and ruins Tagalog or Taglish). Then restart the gateway with `hermes -p default gateway restart` when no task is running.
 - The docs do not say whether the install survives `hermes update`; after an update, re-check with a spoken test and reinstall if needed.
-- Test without a person: `say -o sample.aiff "..."`, then transcribe it with the runtime's Python and `faster_whisper.WhisperModel('small', device='cpu', compute_type='int8')`. Then ask Robi to send a real voice note and check the agent's log.
+- Test without a person: `say -o sample.aiff "..."`, then transcribe it with the runtime's Python and `faster_whisper.WhisperModel('small', device='cpu', compute_type='int8')`. Then ask the employee to send a real voice note and check the agent's log.
 
 ## 9. Verify toolbox
 

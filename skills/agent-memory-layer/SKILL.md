@@ -41,7 +41,7 @@ leaves the store and never exports. API detail, scoping rules and the probe reci
   `PATCH /memories/{id}` accepts them before promising a backfill job.
 - **Page rendering costs a server LLM call.** Refresh on a memory-count delta, never per write.
 
-## This machine's layout (2026-11)
+## Reference layout
 
 - **Explicit commands** → `python3 ~/.hermes/scripts/hindsight_jev_bridge.py {status,classify,retain,recall}` (stdlib, one-shot).
 - **Automatic retain/recall** → `~/.hermes/plugins/jev/` — a provider that SUBCLASSES `HindsightMemoryProvider` and overrides only `sync_turn`, `queue_prefetch`, `prefetch` (Hindsight's opt-in recall_sync mode only) and `on_memory_write`. Tools, config schema, prompt block, session hooks and shutdown are inherited, so a Hindsight update only matters if one of those four signatures changes. The base class is resolved by reusing the module the loader already imported — never import a second copy when the first is in `sys.modules`.

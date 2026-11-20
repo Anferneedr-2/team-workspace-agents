@@ -90,7 +90,7 @@ if is_new:
     for ln in t.split('\n'):
         out.append(ln)
         if re.match(rf'^\| `?{ref}`? \|', ln):
-            out.append(ln.replace(ref, name).replace(ref_base, base).replace('2026-11-04', today()))
+            out.append(ln.replace(ref, name).replace(ref_base, base).replace('<YYYY-MM-DD>', today()))
     t = '\n'.join(out)
     t = re.sub(r'(\*\*Current projects:\*\* [^\n]*?)( \(scaffolded)', rf'\1, `{name}`\2', t, count=1)
     hub.write_text(t)

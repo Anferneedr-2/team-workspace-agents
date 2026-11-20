@@ -5,7 +5,7 @@
   registry.py sync                         rewrite REGISTRY.md and every folder's "Agents in this folder" block
   registry.py clean-stale                  one-time: replace old bot tables (for deleted bots) in client READMEs/AGENTS.md
   registry.py review <slug>                record a review today
-  registry.py set-status <slug> <status> --approved    testing | production | retired (needs Robi's clear yes)
+  registry.py set-status <slug> <status> --approved    testing | production | retired (needs the employee's clear yes)
 """
 from __future__ import annotations
 
@@ -19,7 +19,7 @@ from pathlib import Path
 import yaml
 
 HOME = Path.home()
-WS = HOME / 'Team-Workspace'
+WS = HOME / 'workspace root'
 AG = WS / 'Agents'
 PROFILES = HOME / '.hermes' / 'profiles'
 REG = AG / 'registry.yaml'
@@ -32,7 +32,7 @@ START, END = '<!-- agents:start -->', '<!-- agents:end -->'
 # scanner is used here instead of importing create_agent.py: create_agent.py already
 # imports this module, so importing it back here would be a circular import.
 FENCE = re.compile(r'```(?:yaml )?build-spec\n(.*?)\n```', re.S)
-STATUS_APPROVED = re.compile(r'^Status:\s*APPROVED by Robi on \d{4}-\d{2}-\d{2}', re.M)
+STATUS_APPROVED = re.compile(r'^Status:\s*APPROVED by the designated approver on \d{4}-\d{2}-\d{2}', re.M)
 NONAGENT_BRIEF_NAMES = {'GENERIC-HELPERS.md', 'README.md'}
 NONAGENT_BRIEF_SUFFIXES = ('-archive.md', '-test-report.md', '-how-to-use.md', '-source-file.md',
                            '-draft.md', '-spec.md', '-notes.md', '-request.md')
@@ -207,7 +207,7 @@ def render_md(d: dict) -> str:
         L.append('_None yet._')
     um = unmanaged(d)
     L += ['', '## Not yet following the requirements', '',
-          'Helpers that exist on this Mac but are not in the registry. They are left alone until they are brought up to the requirements (or removed).', '']
+          'Helpers that exist on the local environment but are not in the registry. They are left alone until they are brought up to the requirements (or removed).', '']
     L += [f'- `{p}`' for p in um] or ['- none']
     L += ['', '## Client slug bases', ''] + [f'- `{k}/` → `{v}`' for k, v in sorted(d['clients'].items())]
     return '\n'.join(L) + '\n'
@@ -277,7 +277,7 @@ def main():
         if a.value not in STATUSES:
             sys.exit(f'status must be one of {STATUSES}')
         if not a.approved:
-            sys.exit('STOP: changing status needs Robi\'s clear yes (pass --approved only after he says it)')
+            sys.exit('STOP: changing status needs the employee\'s clear yes (pass --approved only after the approver says it)')
         d = load()
         x = find(d, a.slug or '')
         if not x:

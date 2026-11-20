@@ -5,13 +5,13 @@ Project-scoped rules. Working directory = this folder (`{{WS}}/{{Project}}`).
 ## Scope — hard rules
 
 1. This project only. Never read or write another project's docs, memory, or context.
-2. Cross-project work is not this project's job — raise it to Robi.
+2. Cross-project work is not this project's job — raise it to the employee.
 3. Writes are confined to this directory, following the Folder map below.
 
 ## Agents
 
 Agents for this project are built one at a time with `Agents/bin/create_agent.py` from an approved
-brief (`placement: client:{{Project}}`), after a plan and Robi's clear yes. There is no fixed roster
+brief (`placement: client:{{Project}}`), after a plan and the employee's clear yes. There is no fixed roster
 for every project — the Multi-Agent Engineer decides the smallest effective team (deterministic
 automation, one agent, or several) for this project's actual stated need, and records it as an
 approved plan before anything is built. See `../Agents/REGISTRY.md` for what currently exists here.
@@ -23,7 +23,7 @@ approved plan before anything is built. See `../Agents/REGISTRY.md` for what cur
 | `README.md`, `AGENTS.md`, `CHANGELOG.md` | entry point, rules, change history | the project's document-keeping agent, once built |
 | `Memory/` | human-readable project memory: `context.md`, `decisions.md`, `glossary.md` | the project's memory agent, once built |
 | `Work/` | drafts and in-progress files | any project agent |
-| `Deliverables/` | approved, client-ready outputs | only after Robi's approval |
+| `Deliverables/` | approved, client-ready outputs | only after the employee's approval |
 | `Marketing/` | client card `CLIENT.md` + marketing data | marketing-related agents, if any |
 | `Research/` | research and analysis notes | any project agent |
 | `Data/` | raw data and exports (never credentials) | any project agent |

@@ -12,10 +12,10 @@ agents:
   role: agent-creator
   placement: team
   home: Agents
-  folder: /Users/robi/Team-Workspace/Agents
+  folder: .
   purpose: Take every new helper from the first question to a working, connected, tested, documented and reviewed helper,
     built on purpose and organized the same way every time.
-  owner: Robi
+  owner: the employee
   model: claude-sonnet-5-5
   skills:
   - socratic-discovery
@@ -36,16 +36,16 @@ agents:
   reach:
   - app
   - telegram
-  brief: /Users/robi/Team-Workspace/Agents/briefs/agent-creator.md
+  brief: ./briefs/agent-creator.md
   status: testing
 - name: multi-agent-engineer
   role: multi-agent-engineer
   placement: team
   home: Multi-Agent-Engineer
-  folder: /Users/robi/Team-Workspace/Multi-Agent-Engineer
+  folder: multi-agent-engineer
   purpose: Give each client project a well-built team of helpers, set up the same safe way every time, each member with one
     job, its own memory and the project's own data.
-  owner: Robi
+  owner: the employee
   model: claude-sonnet-5-5
   skills: []
   skills_mode: lean
@@ -63,16 +63,16 @@ agents:
   connections: []
   reach:
   - app
-  brief: /Users/robi/Team-Workspace/Agents/briefs/multi-agent-engineer.md
+  brief: ./briefs/multi-agent-engineer.md
   status: testing
 - name: team-lead
   role: team-lead
   placement: team
-  home: Practice-Team
-  folder: /Users/robi/Team-Workspace/Practice-Team
+  home: team-work
+  folder: team-work
   purpose: 'Keep a team''s work organised: clear tasks, one owner per deliverable, a trail of every hand-over and honest reports
-    to Robi, with the lead kept separate from the writer and the reviewer.'
-  owner: Robi
+    to the employee, with the lead kept separate from the writer and the reviewer.'
+  owner: the employee
   model: claude-sonnet-5-5
   skills: []
   skills_mode: lean
@@ -96,10 +96,10 @@ agents:
 - name: short-text-writer
   role: short-text-writer
   placement: team
-  home: Practice-Team
-  folder: /Users/robi/Team-Workspace/Practice-Team
+  home: team-work
+  folder: team-work
   purpose: Give the team clear, short first drafts that follow the task exactly, with every gap asked about instead of guessed.
-  owner: Robi
+  owner: the employee
   model: claude-sonnet-5-5
   skills: []
   skills_mode: lean
@@ -123,10 +123,10 @@ agents:
 - name: reviewer
   role: reviewer
   placement: team
-  home: Practice-Team
-  folder: /Users/robi/Team-Workspace/Practice-Team
+  home: team-work
+  folder: team-work
   purpose: Give the team an independent, honest check so that only drafts that meet the task go forward.
-  owner: Robi
+  owner: the employee
   model: claude-sonnet-5-5
   skills: []
   skills_mode: lean
@@ -151,9 +151,9 @@ agents:
   role: document-engineer
   placement: team
   home: Generic-Helpers
-  folder: /Users/robi/Team-Workspace/Generic-Helpers
+  folder: generic-helpers
   purpose: Keep every project's documents current and honest, so anyone can see what changed and which files are final.
-  owner: Robi
+  owner: the employee
   model: claude-sonnet-5-5
   skills: []
   skills_mode: lean
@@ -178,9 +178,9 @@ agents:
   role: memory-manager
   placement: team
   home: Generic-Helpers
-  folder: /Users/robi/Team-Workspace/Generic-Helpers
+  folder: generic-helpers
   purpose: Give a project one trustworthy source of what is known, so helpers answer from notes and never from guesses.
-  owner: Robi
+  owner: the employee
   model: claude-sonnet-5-5
   skills: []
   skills_mode: lean

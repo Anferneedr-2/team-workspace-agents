@@ -10,7 +10,7 @@ metadata:
     related_skills: [hermes-agent]
 ---
 
-# Hindsight plugin → custom LLM gateway (e.g. OmniRoute/YanoOpenweights)
+# Hindsight plugin → custom LLM gateway
 
 ## When to Use
 
@@ -85,7 +85,7 @@ NOT plugin settings — the plugin schema exposes no dedup key):
    returns the normalized fact. Confirm daemon env with
    `ps eww $(pgrep -f bin/hindsight-api) | grep HINDSIGHT_API_LLM`.
 
-## Pitfalls (all hit on 2026-11-03, each = a distinct failure layer)
+## Pitfalls
 
 1. **Deps missing**: plugin's `pyproject.toml` deps are NOT auto-installed on an existing install.
    Symptom: `ModuleNotFoundError: hindsight_client` / `hindsight_embed`, or
@@ -102,9 +102,8 @@ NOT plugin settings — the plugin schema exposes no dedup key):
    Symptom: `Daemon failed to start (timeout)` at ~180s with download lines in
    `~/.hindsight/profiles/hermes.log`. Fix: pre-warm `uvx hindsight-api@<ver> --help` once
    (takes ~2-3min; run via terminal tool, execute_code caps at 300s).
-4. **pg0 needs openssl@3**: embedded Postgres (pg0) links
-   `/opt/homebrew/opt/openssl@3/lib/libssl.3.dylib`. Symptom: `Application startup failed`, exit 3,
-   dylib-not-found in `~/.hindsight/profiles/hermes.log`. Fix: `brew install openssl@3`.
+4. **pg0 needs OpenSSL**: embedded Postgres (pg0) may require a compatible system OpenSSL library.
+   Symptom: `Application startup failed`, exit 3, or a dylib-not-found error.
 5. **Bridge/CLI subcommands take positional text**: `hindsight_jev_bridge.py classify "<text>"`,
    NOT `--kind` / `--text`. Guessing flags exits rc=2 with a usage banner that reads like the
    script is broken. Read `build_parser()` first before composing a call.
@@ -141,7 +140,7 @@ printf 'HINDSIGHT_API_LLM_API_KEY=%s\n' "$value"
 
 ```bash
 hermes config set secrets.command.enabled true
-hermes config set secrets.command.command "/Users/robi/.hermes/scripts/omniroute-secret-helper.sh"
+hermes config set secrets.command.command "~/.hermes/scripts/omniroute-secret-helper.sh"
 hermes config set secrets.command.helper_timeout_seconds 3
 hermes config set secrets.command.override_existing false
 ```

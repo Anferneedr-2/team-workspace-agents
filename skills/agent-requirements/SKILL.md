@@ -6,15 +6,15 @@ version: 2.0.0
 
 # Agent requirements, readiness gate, brief and build
 
-Companions: `agent-lifecycle` (the 10 stages), `hermes-reference` (Hermes facts), `~/Team-Workspace/Agents/CONVENTIONS.md` (how agents are organized), `~/Team-Workspace/Agents/AGENT-REQUIREMENTS.md` (the full checklist). Talk about all of it in plain words (see `socratic-discovery`); never paste it at the person.
+Companions: `agent-lifecycle` (the 10 stages), `hermes-reference` (Hermes facts), `./CONVENTIONS.md` (how agents are organized), `./AGENT-REQUIREMENTS.md` (the full checklist). Talk about all of it in plain words (see `socratic-discovery`); never paste it at the person.
 
 ## 1. Is a new helper the right answer?
 
 1. **No helper needed?** Would a checklist, a template or a better habit solve it?
-2. **An existing helper?** Run `hermes profile list` and `python3 ~/Team-Workspace/Agents/bin/registry.py status`. Could a live helper take this on?
+2. **An existing helper?** Run `hermes profile list` and `python3 ./bin/registry.py status`. Could a live helper take this on?
 3. **One job?** If the need has two jobs, plan two helpers, or build the first job now.
 
-Say the result plainly ("I think this is a new helper / an existing helper / not a helper job, because ..."). Let Robi disagree.
+Say the result plainly ("I think this is a new helper / an existing helper / not a helper job, because ..."). Let the employee disagree.
 
 ## 2. Readiness gate (do not write the brief until every line is true and confirmed)
 
@@ -25,12 +25,12 @@ Say the result plainly ("I think this is a new helper / an existing helper / not
 - [ ] **The tools and systems** the work uses, and whether the helper must read or change them
 - [ ] **Where it lives**: a client's folder or its own team folder
 - [ ] **What "done well" looks like** and how we will know it worked
-- [ ] **What it must never do** and **what needs Robi's OK first**
+- [ ] **What it must never do** and **what needs the employee's OK first**
 - [ ] **A first test task** and at least one task it must refuse or ask about
 
 If a line is not true, name the gap and ask the next question. Never fill a gap yourself.
 
-## 3. Requirements to settle (plain question, a recommendation, Robi decides)
+## 3. Requirements to settle (plain question, a recommendation, the employee decides)
 
 | # | Settle | Plain question | Default if unsure |
 |---|---|---|---|
@@ -44,22 +44,22 @@ If a line is not true, name the gap and ask the next question. Never fill a gap 
 | 8 | **Skills** | "Does it need a special method, or just its instructions?" | none, lean |
 | 9 | **Memory** | "Remember lots of facts over time, or only the chat?" | built-in notes |
 | 10 | **Timer** | "Should it run on its own at set times?" | no (needs a separate OK) |
-| 11 | **Passwords** | "Does it log in to anything?" | no (Robi stores any key himself, never in chat) |
-| 12 | **Hand-offs** | "Does it answer only to you, or hand work to another helper?" | Robi |
+| 11 | **Passwords** | "Does it log in to anything?" | no (the employee stores any key himself, never in chat) |
+| 12 | **Hand-offs** | "Does it answer only to you, or hand work to another helper?" | the employee |
 | 13 | **Rules** | "What must it never do? What must it ask first? Any command that must always be blocked?" | ask first before sending, publishing, spending, deleting |
 | 14 | **Tests** | "What is a first real task? What should it refuse?" | intro + normal + boundary |
 | 15 | **Review** | "When should we look at how it is doing?" | after 3 tasks or 7 days |
 
-Fixed by the house rules (do not ask): every agent is registered, starts as `testing`, gets a home folder with README, AGENTS.md and CHANGELOG, and is only promoted to `production` after Robi approves a correct real result.
+Fixed by the house rules (do not ask): every agent is registered, starts as `testing`, gets a home folder with README, AGENTS.md and CHANGELOG, and is only promoted to `production` after the employee approves a correct real result.
 
 ## 4. The Agent Brief
 
-Save to `~/Team-Workspace/Agents/briefs/<name>.md`. The top is plain words for Robi. The build spec at the bottom is for the scripts.
+Save to `./briefs/<name>.md`. The top is plain words for the employee. The build spec at the bottom is for the scripts.
 
 ````markdown
 # Agent brief: <plain name>
 
-Status: DRAFT   (change to: APPROVED by Robi on YYYY-MM-DD, only after he says yes)
+Status: DRAFT   (change to: APPROVED by the designated approver on YYYY-MM-DD, only after the approver says yes)
 Date: YYYY-MM-DD
 
 ## In plain words
@@ -74,7 +74,7 @@ Date: YYYY-MM-DD
 ## What it does and what it must never do
 - Does:
 - Never:
-- Asks Robi first before:
+- Asks the employee first before:
 ## How we will know it works
 ## Tests
 <the intro, normal, edge, boundary, scope and tool tests, in words>
@@ -98,7 +98,7 @@ description: One paragraph saying what it does and for whom.
 model: claude-haiku-5-5
 # lean = only the skills it needs (recommended); standard = all built-in skills
 skills_mode: lean
-# names from ~/Team-Workspace/Agents/skills, comma separated, or leave empty
+# names from ./skills, comma separated, or leave empty
 skills:
 # builtin or holographic
 memory: builtin
@@ -119,7 +119,7 @@ ask_first:
 context:
   - ...
 examples:
-  - Robi: '...' -> It replies: '...'
+  - the employee: '...' -> It replies: '...'
 # outside tools: name | method (mcp, builtin or skill) | what it is for | read-only or can change | secret name only
 connections:
 # tests: kind | prompt | expect: words the answer should contain
@@ -131,8 +131,8 @@ tests:
 
 ## 5. Approval, build, verify
 
-1. Show Robi the **"In plain words"** part, the limits and the readiness result. Ask: "Shall I build it as written?" Do not build on silence or a maybe.
-2. After a clear yes set `Status: APPROVED by Robi on <date>` and run (from `~/Team-Workspace/Agents/bin/`):
+1. Show the employee the **"In plain words"** part, the limits and the readiness result. Ask: "Shall I build it as written?" Do not build on silence or a maybe.
+2. After a clear yes set `Status: APPROVED by the designated approver on <date>` and run (from `./bin/`):
    - `python3 create_agent.py ../briefs/<name>.md --dry-run`
    - `python3 create_agent.py ../briefs/<name>.md --approved --smoke`
    - `python3 check_agent.py <slug> --scenarios`

@@ -1,7 +1,7 @@
 slug: memory-manager
 scope: workspace
 cwd: '{{WS}}'
-description: 'Top-level Memory Manager for Agentic Team Alpha: obtains, stores, and serves workspace-wide context and durable
+description: 'Top-level Memory Manager for agent workspace: obtains, stores, and serves workspace-wide context and durable
   cross-project memory. Project-scoped memory managers handle in-project recall only.'
 skills:
 - task-changelog

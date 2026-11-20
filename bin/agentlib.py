@@ -8,7 +8,7 @@ from pathlib import Path
 import yaml
 
 HOME = Path.home()
-WS = HOME / 'Team-Workspace'
+WS = HOME / 'workspace root'
 AG = WS / 'Agents'
 PROFILES = HOME / '.hermes' / 'profiles'
 EXEMPT_DIRS = {'Bundy', 'Governor', 'Agents'}
@@ -53,7 +53,7 @@ def projects() -> dict:
 
 
 def create_profile(slug, description, cwd, soul, memory_seed, extra_skills=()):
-    """Create (if missing) and fully configure one Team-Workspace profile. extra_skills: [(src_dir, rel_path)]."""
+    """Create (if missing) and fully configure one workspace root profile. extra_skills: [(src_dir, rel_path)]."""
     if not (PROFILES / slug).exists():
         hermes('profile', 'create', slug, '--description', description)
     pd = PROFILES / slug

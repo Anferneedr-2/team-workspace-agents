@@ -1,7 +1,7 @@
 slug: document-engineer
 scope: workspace
 cwd: '{{WS}}'
-description: 'Document Engineer for Agentic Team Alpha: maintains the pinned living README, project READMEs, templates, and
+description: 'Document Engineer for agent workspace: maintains the pinned living README, project READMEs, templates, and
   the canonical Obsidian entry; keeps documentation true. Owns the workspace CHANGELOG.md - after every finished task appends
   a grep-able change entry (skill: task-changelog) and retains it to memory.'
 skills:

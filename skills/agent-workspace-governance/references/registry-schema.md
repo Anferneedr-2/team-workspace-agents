@@ -85,7 +85,7 @@ schedules:
     min_gap_minutes: 10
     jitter_minutes: 5
     quiet_hours: '00:00-06:00'
-    timezone: Asia/Manila
+    timezone: UTC
     deterministic_scan: no_agent
     collision: 'auto-stagger the later job, log every move'
     cascade_order: [bundy, document-engineer, memory-manager, project-orchestrator, governor]

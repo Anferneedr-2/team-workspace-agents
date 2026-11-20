@@ -26,7 +26,7 @@ python3 ~/.hermes/scripts/hindsight_jev_bridge.py recall "query" --json
 ## Rules
 
 - Do not edit `~/.hermes/plugins/hindsight/__init__.py`. It is a catalog install and updates replace it.
-- Do not rebuild the SQLite `jevmemd` sidecar; it was removed on 2026-11-03 because Hindsight already stores the memories.
+- Do not rebuild the SQLite `jevmemd` sidecar. Hindsight already stores the memories.
 - **Both paths are gated.** The bridge covers explicit retain/recall from any agent; `memory.provider=jev` puts the same Jev admission in front of Hermes's automatic `sync_turn`/`queue_prefetch`/`on_memory_write`. The gate provider subclasses `HindsightMemoryProvider`, so the store, tools and config are still Hindsight's.
 - The gate fails OPEN (missing key, slow Jev or an unreadable bridge → plain Hindsight). Turn it off with `JEV_GATE=0`; `JEV_GATE_DEBUG=1` logs one line per decision to `~/.hermes/cache/scratch/jev_gate_debug.log`; counters are exposed by the `jev_gate_stats` tool.
 - The wrapper declares `hindsight-client`/`hindsight-embed` in `~/.hermes/plugins/jev/pyproject.toml`: the package manager evicts the inactive provider's packages, and without them `is_available()` is False and the provider is dropped.

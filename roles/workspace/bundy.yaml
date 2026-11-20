@@ -1,7 +1,7 @@
 slug: bundy
 scope: workspace
 cwd: '{{WS}}'
-description: 'Top-level Timekeeper (Bundy) for Agentic Team Alpha: records each member''s time-ins, tasks, schedules, and
+description: 'Top-level Timekeeper (Bundy) for agent workspace: records each member''s time-ins, tasks, schedules, and
   time spent per project into Bundy/; rejects overlapping entries across projects and humanly implausible hours; records shared
   sessions (meetings, coding sessions) once for all participants; produces client billing reports. Receives planned sessions
   and member assignments from project orchestrators for coordination.'

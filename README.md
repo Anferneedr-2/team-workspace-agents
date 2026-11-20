@@ -12,7 +12,7 @@ Reusable agent definitions and the tools that turn them into per-client agents. 
 | `instances.yaml` | which agents are hired for which client (governance reads it) |
 | `optional/jira/` | **Jira, an optional tool** (not a default): `Jira/` skeleton + `jira-admin` role, switched on per client with `bin/enable_jira.py` |
 | `optional/` (rest) | inert reference copies from the remote Mini: Hindsight + `jev` scripts and its Obsidian note (see `optional/README.md`) |
-| `AGENT-REQUIREMENTS.md` | the requirements for creating an agent (Hermes platform + decisions + registration + verification), from the remote Mac Mini |
+| `AGENT-REQUIREMENTS.md` | the requirements for creating an agent (Hermes platform + decisions + registration + verification), from the remote host |
 | `CONVENTIONS.md` | how agents are organized: placement, names, records, status lifecycle, change control |
 | `registry.yaml` / `REGISTRY.md` | the register of every agent (and what does not yet follow the requirements) |
 | `briefs/` | Agent Briefs and test reports written by `agent-creator` |
@@ -28,11 +28,11 @@ A specialist (for example `seo-audit-bot`) is a **definition**. Hiring it for a 
 - is registered in `instances.yaml` and in governance.
 
 ```bash
-python3 ~/Team-Workspace/Agents/bin/hire_agent.py seo-audit-bot SimplySource
-python3 ~/Team-Workspace/Agents/bin/new_client.py "Client Name" clientslug
+python3 ./bin/hire_agent.py seo-audit-bot example-client
+python3 ./bin/new_client.py "Client Name" clientslug
 ```
 
-Then run governance: `python3 ~/Team-Workspace/Governor/build_governance.py && python3 ~/Team-Workspace/Governor/validate_governance.py` (add `--write-lock` after you approve).
+Then run governance: `python3 ./Governor/build_governance.py && python3 ./Governor/validate_governance.py` (add `--write-lock` after you approve).
 
 <!-- agents:start -->
 ## Agents in this folder

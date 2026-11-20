@@ -133,7 +133,7 @@ def main():
     # ---- 3. home folder and records
     folder = Path(entry.get('folder') or (cfg.get('terminal') or {}).get('cwd') or '')
     if folder.is_dir() and WS in folder.parents:
-        add('PASS', 'folder', f'home folder exists inside Team-Workspace: {folder.name}/')
+        add('PASS', 'folder', f'home folder exists inside workspace root: {folder.name}/')
         for f in ('README.md', 'AGENTS.md', 'CHANGELOG.md'):
             (add('PASS', 'folder', f'{f} present') if (folder / f).is_file() else add('FAIL', 'folder', f'{f} is missing in {folder.name}/'))
         rd = (folder / 'README.md').read_text() if (folder / 'README.md').is_file() else ''
@@ -142,10 +142,10 @@ def main():
         root = (WS / 'CHANGELOG.md').read_text() if (WS / 'CHANGELOG.md').is_file() else ''
         add('PASS' if slug in cl and slug in root else 'WARN', 'changelog', 'change-log entries exist in the folder and the workspace' if slug in cl and slug in root else 'missing change-log entry (folder or workspace)')
     else:
-        add('FAIL', 'folder', f'home folder missing or outside Team-Workspace: {folder}')
+        add('FAIL', 'folder', f'home folder missing or outside workspace root: {folder}')
     brief = Path(entry.get('brief') or '')
     if brief.is_file():
-        add('PASS' if re.search(r'^Status:\s*APPROVED by Robi', brief.read_text(), re.M) else 'FAIL', 'brief', 'brief exists and is approved' if re.search(r'^Status:\s*APPROVED by Robi', brief.read_text(), re.M) else 'brief is not marked approved')
+        add('PASS' if re.search(r'^Status:\s*APPROVED by the designated approver', brief.read_text(), re.M) else 'FAIL', 'brief', 'brief exists and is approved' if re.search(r'^Status:\s*APPROVED by the designated approver', brief.read_text(), re.M) else 'brief is not marked approved')
     else:
         add('FAIL', 'brief', 'no brief on file')
     add('PASS' if (HOME / '.local' / 'bin' / slug).exists() else 'WARN', 'alias', 'command alias exists' if (HOME / '.local' / 'bin' / slug).exists() else 'no ~/.local/bin alias')
@@ -284,7 +284,7 @@ def finish(slug, reg, entry, scen):
     L += ['', '## What to do next', '',
           '1. Fix every FAIL and think about every WARN.' if c['FAIL'] or c['WARN'] else '1. Nothing to fix.',
           '2. Give it one real task and look at the result with the person who will use it.',
-          '3. If the result was right, Robi can promote it: `registry.py set-status ' + slug + ' production --approved`.',
+          '3. If the result was right, the employee can promote it: `registry.py set-status ' + slug + ' production --approved`.',
           '4. Schedule its first review: after three real tasks or seven days.']
     rep = AG / 'briefs' / f'{slug}-test-report.md'
     rep.write_text('\n'.join(L) + '\n')

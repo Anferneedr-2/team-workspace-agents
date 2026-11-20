@@ -1,7 +1,7 @@
 slug: assistant
 scope: workspace
 cwd: '{{WS}}'
-description: 'Assistant for Agentic Team Alpha: brainstorms with the user and structures prompts from stated intent and underlying
+description: 'Assistant for agent workspace: brainstorms with the user and structures prompts from stated intent and underlying
   goal before any bot executes.'
 skills:
 - task-changelog

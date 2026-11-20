@@ -72,13 +72,13 @@ in frontmatter instead of inferred from filenames).
 ## `registry.yaml` per-agent fields (optional, new)
 
 ```yaml
-- name: clinicconnects-memory-manager
+- name: example-client-memory-manager
   ...                        # all existing fields unchanged
   definition_id: memory-manager       # NEW — which brief this instance was built from
   definition_version: 1               # NEW — pinned at build time; never auto-bumped
   definition_hash: sha256:...         # NEW — hash of the brief body at build time
   instance_scope: project             # NEW — project | shared | team
-  project: CliniConnects              # NEW — null for shared/team instances
+  project: example-client              # NEW — null for shared/team instances
 ```
 
 No existing row needs any of these fields to remain valid. A future phase
@@ -101,7 +101,7 @@ A shared instance is only valid when **all six** are true for the role:
 5. Tool/toolset permissions are identical across every project that would
    call it.
 6. Filesystem access risk is acceptable given Hermes provides no OS-level
-   sandbox on this Mac (Docker not installed) — isolation here is always
+   sandbox on the local environment (Docker not installed) — isolation here is always
    behavioral, never enforced, for shared *and* project-isolated instances
    alike.
 
@@ -115,7 +115,7 @@ registry.py find --generic      # list only definitions marked generic: yes
 ```
 No new registry or database: discovery is a **union** of two things that
 already exist — `Agents/briefs/*.md` (definitions, scanned read-only, status
-checked via the exact same `Status: APPROVED by Robi on <date>` regex
+checked via the exact same `Status: APPROVED by the designated approver on <date>` regex
 `create_agent.py`/`check_agent.py` already use for builds) and
 `Agents/registry.yaml` (instances, matched by `source_definition` when set,
 else by the existing `role` field — which already equals the un-prefixed
@@ -146,7 +146,7 @@ For any registry row with `source_definition: <id>@<version>` set,
 
 An older pinned version is **never, by itself,** reported as a problem.
 
-## Team manifest — `Agents/teams/<project>.yaml` (schema v2, implemented 2026-11-13)
+## Team manifest — `Agents/teams/<project>.yaml`
 
 A member now separates five distinct concepts that a bare `instance:` string
 used to conflate (the real `Agents/teams/Lighthouse.yaml`, written by
@@ -155,17 +155,17 @@ nothing to stop a generic repository instance from silently satisfying a
 project-specific member reference):
 
 ```yaml
-project: CliniConnects
+project: example-client
 architecture: multi-agent          # deterministic | single-agent | multi-agent
 lifecycle: provisioned             # proposed | approved | provisioned | validated | active
-approval: "Robi, 2026-11-13, in chat"     # required from 'approved' onward
-activated: "Robi, 2026-11-13, in chat"    # required only at 'active'; distinct from 'approval'
+approval: "<approver>, <date>, <channel>"          # required from 'approved' onward
+activated: "<approver>, <date>, <channel>"         # required only at 'active'; distinct from 'approval'
 reasoning: "<mandatory, non-empty>" # necessary, not sufficient -- see note below
 members:
   - definition_id: document-engineer          # which reusable definition (repository brief)
     definition_version: 1                      # optional pin (not yet enforced beyond resolve)
-    planned_instance: clinicconnects-document-engineer   # intended future Hermes profile slug
-    instance: clinicconnects-document-engineer           # ACTUAL deployed slug -- null until built
+    planned_instance: example-client-document-engineer   # intended future Hermes profile slug
+    instance: example-client-document-engineer           # ACTUAL deployed slug -- null until built
     depends_on: []                              # references other members by their definition_id
     responsibilities: "..."
     handoff: { type: file, path: Deliverables/ }
@@ -179,7 +179,7 @@ an earlier, unmet prerequisite:
 |---|---|
 | `proposed` | `reasoning` non-empty; valid `architecture`/member-count; every member resolves to a known definition or real instance; no invalid/circular `depends_on`. |
 | `approved` | Manifest carries a non-empty `approval` note. Each member's `definition_id` must be explicit and resolve to a brief that is `Status: APPROVED` (not draft). `planned_instance` recommended (`WARN` if absent, not yet an error, for the first real manifests). |
-| `provisioned` | Each member's `instance` must be **explicitly set** and resolve to a real `registry.yaml` row. That row's own `folder` must be inside **this project's folder** (`<Team-Workspace>/<project>/...`) — a generic reference instance (whose folder is the repository's own home, e.g. `Generic-Helpers/`) can never satisfy this, closing the exact gap above. If `planned_instance` is set, `instance` must equal it. |
+| `provisioned` | Each member's `instance` must be **explicitly set** and resolve to a real `registry.yaml` row. That row's own `folder` must be inside **this project's folder** (`<workspace root>/<project>/...`) — a generic reference instance (whose folder is the repository's own home, e.g. `Generic-Helpers/`) can never satisfy this, closing the exact gap above. If `planned_instance` is set, `instance` must equal it. |
 | `validated` | The resolved instance's registry `tests` field shows a clean run (`0 fail`). |
 | `active` | Manifest carries a non-empty `activated` note, distinct from `approval` (records explicit activation, not just plan sign-off). |
 

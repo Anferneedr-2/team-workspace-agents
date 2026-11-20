@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Hire (instantiate) an existing specialist for ONE client/project.
 
-  hire_agent.py <specialist-profile> <ProjectDir>        e.g. hire_agent.py seo-audit-bot SimplySource
+  hire_agent.py <specialist-profile> <ProjectDir>        e.g. hire_agent.py seo-audit-bot example-client
 
 Creates profile <base>-<specialist> that: starts in the client folder, has its own memory, copies the
 specialist's persona (SOUL.md) and extra skills (never .env/credentials), and is registered in
@@ -62,7 +62,7 @@ soul = soul.rstrip('\n') + f'''
 
 # Instance scope ({slug})
 - You are the {proj} instance of the specialist `{agent}`. Work only inside `{D}`; never read or write another client's folder.
-- Put drafts in `Work/`; approved outputs go to `Deliverables/` only after Robi approves. Client card and marketing data: `Marketing/` (CLIENT.md).
+- Put drafts in `Work/`; approved outputs go to `Deliverables/` only after the employee approves. Client card and marketing data: `Marketing/` (CLIENT.md).
 - Ignore any output path, client path or reporting line in your original persona that points outside `{D}`: you report to `{base}-orchestrator`.
 - Follow `{D}/AGENTS.md`. Log every finished task with the task-changelog skill into `{D}/CHANGELOG.md`.
 '''

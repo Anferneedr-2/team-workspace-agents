@@ -19,7 +19,7 @@ from pathlib import Path
 
 import yaml
 
-DEFAULT_WS = Path.home() / 'Team-Workspace'
+DEFAULT_WS = Path.home() / 'workspace root'
 DEFAULT_AG = DEFAULT_WS / 'Agents'
 DEFAULT_PROFILES = Path.home() / '.hermes' / 'profiles'
 DEFAULT_TEAMS = DEFAULT_AG / 'teams'
@@ -393,7 +393,7 @@ def run_checks(registry_path: Path, profiles_dir: Path, ag_dir: Path = None, tea
     reg_names = {a['name'] for a in agents}
     ag_dir = ag_dir or registry_path.parent  # registry.yaml lives at <Agents>/registry.yaml
     teams_dir = teams_dir or (ag_dir / 'teams')
-    ws_dir = ws_dir or ag_dir.parent  # Agents/ is always one level under Team-Workspace/
+    ws_dir = ws_dir or ag_dir.parent  # Agents/ is always one level under workspace root/
 
     # Check A: every non-retired registered agent has a live profile.
     for a in agents:
@@ -445,7 +445,7 @@ def main():
     ap.add_argument('--profiles-dir', type=Path, default=DEFAULT_PROFILES)
     ap.add_argument('--ag-dir', type=Path, default=None, help='Agents/ root for briefs+teams (default: registry.yaml\'s own folder)')
     ap.add_argument('--teams-dir', type=Path, default=None)
-    ap.add_argument('--ws-dir', type=Path, default=None, help='Team-Workspace root, for team-manifest project-scope checks (default: --ag-dir\'s parent)')
+    ap.add_argument('--ws-dir', type=Path, default=None, help='workspace root root, for team-manifest project-scope checks (default: --ag-dir\'s parent)')
     ap.add_argument('--json', action='store_true')
     a = ap.parse_args()
 
